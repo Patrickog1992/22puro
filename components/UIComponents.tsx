@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Star, ThumbsUp, Heart } from 'lucide-react';
+import { Star, ThumbsUp, Heart, CheckCircle } from 'lucide-react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'success' | 'pulsing-green';
@@ -13,7 +13,7 @@ export const Button: React.FC<ButtonProps> = ({
   className = '', 
   ...props 
 }) => {
-  const baseStyles = "py-4 px-6 rounded-lg font-bold text-lg shadow-lg transition-transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseStyles = "py-4 px-6 rounded-lg font-bold text-lg shadow-lg transition-transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed select-none touch-manipulation";
   
   let variantStyles = "";
   if (variant === 'primary') {
@@ -57,24 +57,22 @@ export const SelectableOption: React.FC<{
 }> = ({ selected, onClick, children }) => (
   <div 
     onClick={onClick}
-    className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
+    className={`p-4 rounded-xl border-2 cursor-pointer transition-all select-none active:bg-gray-50 touch-manipulation ${
       selected 
         ? 'border-pink-500 bg-pink-50 text-pink-900 font-semibold' 
         : 'border-gray-200 hover:border-pink-300 text-gray-700'
     }`}
   >
-    <div className="flex items-center gap-3">
-      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${selected ? 'border-pink-500 bg-pink-500' : 'border-gray-300'}`}>
+    <div className="flex items-center gap-3 pointer-events-none">
+      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${selected ? 'border-pink-500 bg-pink-500' : 'border-gray-300'}`}>
         {selected && <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
       </div>
-      <span className="text-base">{children}</span>
+      <span className="text-base leading-snug">{children}</span>
     </div>
   </div>
 );
 
-// --- NEW COMPONENTS ---
-
-export const Mockup: React.FC = () => null; // Deprecated, keeping for interface compatibility if needed
+export const Mockup: React.FC = () => null; 
 
 export const PhoneMockupCarousel: React.FC = () => {
   const images = [
@@ -199,6 +197,59 @@ export const CountdownBanner: React.FC<{ timeLeft: number }> = ({ timeLeft }) =>
       <span className="text-yellow-300 text-lg ml-2 font-mono">
         {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
       </span>
+    </div>
+  );
+};
+
+export const SalesPopup: React.FC = () => {
+  const [visible, setVisible] = useState(false);
+  const [data, setData] = useState({ name: "", city: "" });
+
+  const sales = [
+    { name: "Amanda S.", city: "Rio de Janeiro" },
+    { name: "Beatriz M.", city: "São Paulo" },
+    { name: "Carol L.", city: "Belo Horizonte" },
+    { name: "Daniela P.", city: "Curitiba" },
+    { name: "Elena R.", city: "Salvador" },
+    { name: "Fernanda C.", city: "Porto Alegre" },
+    { name: "Gabriela T.", city: "Brasília" },
+    { name: "Helena O.", city: "Recife" }
+  ];
+
+  useEffect(() => {
+    // Initial delay
+    const initialTimer = setTimeout(() => {
+      showNextSale();
+    }, 3000);
+
+    const showNextSale = () => {
+      const randomSale = sales[Math.floor(Math.random() * sales.length)];
+      setData(randomSale);
+      setVisible(true);
+
+      // Hide after 4 seconds
+      setTimeout(() => {
+        setVisible(false);
+        // Show next after random interval between 8-15 seconds
+        setTimeout(showNextSale, Math.random() * 7000 + 8000);
+      }, 4000);
+    };
+
+    return () => clearTimeout(initialTimer);
+  }, []);
+
+  if (!visible) return null;
+
+  return (
+    <div className="fixed top-16 right-2 z-[60] bg-white rounded-lg shadow-2xl p-3 flex items-center gap-3 animate-fade-in-down border border-green-100 max-w-[220px]">
+      <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 shrink-0">
+        <CheckCircle size={16} />
+      </div>
+      <div className="flex flex-col">
+        <span className="text-xs font-bold text-gray-800 leading-tight">{data.name}</span>
+        <span className="text-[10px] text-gray-500 leading-tight">de {data.city} comprou o manual</span>
+        <span className="text-[10px] text-green-600 font-bold mt-0.5">há poucos instantes</span>
+      </div>
     </div>
   );
 };

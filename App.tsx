@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button, Container, ContentPadding, SelectableOption, PhoneMockupCarousel, SocialProofCarousel, CountdownBanner } from './components/UIComponents';
+import { Button, Container, ContentPadding, SelectableOption, PhoneMockupCarousel, SocialProofCarousel, CountdownBanner, SalesPopup } from './components/UIComponents';
 import { TestimonialData, BonusData } from './types';
 import { CheckCircle, Lock, Clock, Star } from 'lucide-react';
 
@@ -13,12 +13,36 @@ export default function App() {
   
   const checkoutUrl = "https://go.perfectpay.com.br/PPU38CQ630C";
 
-  const scrollToTop = () => window.scrollTo(0, 0);
+  // Preload images on mount
+  useEffect(() => {
+    const imageUrls = [
+      "https://i.imgur.com/xQjj8N5.png",
+      "https://i.imgur.com/Fgw1OG5.jpeg",
+      "https://i.imgur.com/zG4MT7C.jpeg",
+      "https://quentesecarentes.com.br/wp-content/uploads/2019/10/banner29112016-009.jpg",
+      "https://quentesecarentes.com.br/wp-content/uploads/2019/10/banner29112016-005.jpg",
+      "https://sexshoperotica.com.br/wp-content/uploads/2016/11/banner29112016-001.jpg",
+      "https://i0.statig.com.br/bancodeimagens/2d/xa/7l/2dxa7lvdi0j372n4yuhaioj96.jpg",
+      "https://i.imgur.com/nCdT1tV.jpg",
+      "https://i.imgur.com/UV9Z6gf.png",
+      "https://i.imgur.com/VhoVk3r.png",
+      "https://i.imgur.com/bCnVnmr.jpg"
+    ];
+
+    imageUrls.forEach((url) => {
+      const img = new Image();
+      img.src = url;
+    });
+  }, []);
+
+  // Force scroll to top on every step change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, [step]);
 
   const nextStep = () => {
     setStep((s) => s + 1);
     setSelectedOptions([]);
-    scrollToTop();
   };
 
   const handleCheckout = () => {
@@ -536,6 +560,7 @@ export default function App() {
   if (step === 16) {
     return (
       <Container>
+        <SalesPopup />
         <CountdownBanner timeLeft={timeLeft} />
         
         <ContentPadding>
