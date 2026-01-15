@@ -202,8 +202,8 @@ export default function App() {
   if (step === 2) {
     return (
       <Container>
-        <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[10%]"></div></div>
         <QuizLogo />
+        <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[10%]"></div></div>
         <ContentPadding>
           <p className="text-gray-500 text-sm font-semibold text-center">Antes de liberar o seu acesso ao Manual das Posições Matadoras, preciso saber:</p>
           <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">
@@ -224,8 +224,8 @@ export default function App() {
   if (step === 3) {
     return (
       <Container>
-        <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[25%]"></div></div>
         <QuizLogo />
+        <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[25%]"></div></div>
         <ContentPadding>
           <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">
             Quando o assunto é sexo, como você se classifica?
@@ -245,8 +245,8 @@ export default function App() {
   if (step === 4) {
     return (
       <Container>
-        <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[40%]"></div></div>
         <QuizLogo />
+        <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[40%]"></div></div>
         <ContentPadding>
           <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">
             Qual sua maior dificuldade na hora do sexo?
@@ -266,8 +266,8 @@ export default function App() {
   if (step === 5) {
     return (
       <Container>
-        <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[55%]"></div></div>
         <QuizLogo />
+        <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[55%]"></div></div>
         <ContentPadding>
           <h2 className="text-xl font-bold text-gray-900 mb-2 text-center">
             O que você quer que aconteça depois de aplicar as 50 POSIÇÕES SECRETAS?
@@ -413,8 +413,8 @@ export default function App() {
   if (step === 10) {
     return (
       <Container>
-        <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[70%]"></div></div>
         <QuizLogo />
+        <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[70%]"></div></div>
         <ContentPadding>
           <h2 className="text-xl font-bold text-gray-900 mb-2 text-center">
             Qual é a sua maior frustração na cama hoje?
@@ -447,8 +447,8 @@ export default function App() {
   if (step === 11) {
     return (
       <Container>
-        <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[85%]"></div></div>
         <QuizLogo />
+        <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[85%]"></div></div>
         <ContentPadding>
           <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">
             Quando foi a última vez que você realmente sentiu um homem louco de tesão por você a ponto de perder o controle?
