@@ -57,7 +57,7 @@ export default function App() {
   };
 
   const QuizLogo = () => (
-    <div className="flex justify-center mb-4 fade-in">
+    <div className="flex justify-center pt-6 px-6 mb-4">
       <img 
         src="https://i.imgur.com/xQjj8N5.png" 
         alt="Manual das Posições Secretas" 
@@ -130,8 +130,8 @@ export default function App() {
   if (step === 0) {
     return (
       <Container>
-        <div className="p-6 pb-2 fade-in">
-          <QuizLogo />
+        <QuizLogo />
+        <div className="px-6 pb-2 fade-in">
           <h1 className="text-2xl font-bold text-red-600 leading-tight text-center">
             Surpreenda seu parceiro inovando com posições nunca vistas antes
           </h1>
@@ -165,8 +165,8 @@ export default function App() {
   if (step === 1) {
     return (
       <Container>
-        <div className="p-6 pb-4 fade-in">
-          <QuizLogo />
+        <QuizLogo />
+        <div className="px-6 pb-4 fade-in">
           <h2 className="text-2xl font-bold text-gray-900 text-center">
             Conheça sua professora: Ana Julia
           </h2>
@@ -203,8 +203,8 @@ export default function App() {
     return (
       <Container>
         <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[10%]"></div></div>
+        <QuizLogo />
         <ContentPadding>
-          <QuizLogo />
           <p className="text-gray-500 text-sm font-semibold text-center">Antes de liberar o seu acesso ao Manual das Posições Matadoras, preciso saber:</p>
           <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">
             Em qual momento da sua vida amorosa você está nesse momento
@@ -225,8 +225,8 @@ export default function App() {
     return (
       <Container>
         <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[25%]"></div></div>
+        <QuizLogo />
         <ContentPadding>
-          <QuizLogo />
           <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">
             Quando o assunto é sexo, como você se classifica?
           </h2>
@@ -246,8 +246,8 @@ export default function App() {
     return (
       <Container>
         <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[40%]"></div></div>
+        <QuizLogo />
         <ContentPadding>
-          <QuizLogo />
           <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">
             Qual sua maior dificuldade na hora do sexo?
           </h2>
@@ -267,8 +267,8 @@ export default function App() {
     return (
       <Container>
         <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[55%]"></div></div>
+        <QuizLogo />
         <ContentPadding>
-          <QuizLogo />
           <h2 className="text-xl font-bold text-gray-900 mb-2 text-center">
             O que você quer que aconteça depois de aplicar as 50 POSIÇÕES SECRETAS?
           </h2>
@@ -300,8 +300,8 @@ export default function App() {
   if (step === 6) {
     return (
       <Container>
+        <QuizLogo />
         <ContentPadding>
-          <QuizLogo />
           <h2 className="text-xl font-bold text-center text-gray-900 mb-6">
             Veja o relato de algumas alunas que já aplicaram a técnica das posições secretas…
           </h2>
@@ -331,8 +331,8 @@ export default function App() {
   if (step === 7) {
     return (
       <Container>
+        <QuizLogo />
         <ContentPadding>
-          <QuizLogo />
           <h2 className="text-2xl font-extrabold text-red-600 uppercase text-center leading-tight">
             SE VOCÊ NÃO FAZ ESSAS 50 POSIÇÕES, OUTRA FARÁ POR VOCÊ.
           </h2>
@@ -356,8 +356,8 @@ export default function App() {
   if (step === 8) {
     return (
       <Container>
+        <QuizLogo />
         <ContentPadding>
-          <QuizLogo />
           <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
             Sua vida Sexual vai mudar da água pro vinho 🍷
           </h2>
@@ -381,8 +381,8 @@ export default function App() {
   if (step === 9) {
     return (
       <Container>
+        <QuizLogo />
         <ContentPadding>
-          <QuizLogo />
           <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">
             Ao liberar acesso ao Manual das Posições você vai descobrir como:
           </h2>
@@ -414,8 +414,8 @@ export default function App() {
     return (
       <Container>
         <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[70%]"></div></div>
+        <QuizLogo />
         <ContentPadding>
-          <QuizLogo />
           <h2 className="text-xl font-bold text-gray-900 mb-2 text-center">
             Qual é a sua maior frustração na cama hoje?
           </h2>
@@ -448,8 +448,8 @@ export default function App() {
     return (
       <Container>
         <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[85%]"></div></div>
+        <QuizLogo />
         <ContentPadding>
-          <QuizLogo />
           <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">
             Quando foi a última vez que você realmente sentiu um homem louco de tesão por você a ponto de perder o controle?
           </h2>
@@ -468,8 +468,8 @@ export default function App() {
   if (step === 12) {
     return (
       <Container>
+        <QuizLogo />
         <ContentPadding>
-          <QuizLogo />
           <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">
             Essas 3 coisas vão acontecer logo na primeira vez que você colocar em prática alguma das posições do Manual...
           </h2>
@@ -506,8 +506,8 @@ export default function App() {
   if (step === 13) {
     return (
       <Container>
+        <QuizLogo />
         <ContentPadding>
-          <QuizLogo />
           <div className="flex flex-col items-center justify-center flex-grow text-center">
             <h2 className="text-2xl font-bold text-gray-900 mb-8">
               Você quer ter acesso ao Manual das Posições SECRETAS?
@@ -528,8 +528,8 @@ export default function App() {
 
     return (
       <Container>
+        <QuizLogo />
         <ContentPadding>
-          <QuizLogo />
           <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-8">
             <div className="w-24 h-24 rounded-full border-8 border-gray-200 border-t-pink-500 animate-spin"></div>
             
@@ -674,7 +674,7 @@ export default function App() {
           </div>
 
           <div className="my-8 border-4 border-green-600 rounded-xl overflow-hidden shadow-2xl">
-            <div className="bg-green-600 text-white text-center py-2 font-bold uppercase tracking-wider text-sm">
+            <div className="bg-green-600 text-center py-2 font-bold uppercase tracking-wider text-sm text-white">
               😈🔥 CONDIÇÃO ESPECIAL LIBERADA SOMENTE NESSA PÁGINA
             </div>
             <div className="p-6 bg-white text-center">
