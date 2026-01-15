@@ -3,6 +3,27 @@ import { Button, Container, ContentPadding, SelectableOption, PhoneMockupCarouse
 import { TestimonialData, BonusData } from './types';
 import { CheckCircle, Lock, Clock, Star } from 'lucide-react';
 
+// Preload images immediately when module loads
+const imageUrls = [
+  "https://i.imgur.com/xQjj8N5.png",
+  "https://i.imgur.com/Fgw1OG5.jpeg",
+  "https://i.imgur.com/zG4MT7C.jpeg",
+  "https://quentesecarentes.com.br/wp-content/uploads/2019/10/banner29112016-009.jpg",
+  "https://quentesecarentes.com.br/wp-content/uploads/2019/10/banner29112016-005.jpg",
+  "https://sexshoperotica.com.br/wp-content/uploads/2016/11/banner29112016-001.jpg",
+  "https://i0.statig.com.br/bancodeimagens/2d/xa/7l/2dxa7lvdi0j372n4yuhaioj96.jpg",
+  "https://i.imgur.com/nCdT1tV.jpg",
+  "https://i.imgur.com/UV9Z6gf.png",
+  "https://i.imgur.com/VhoVk3r.png",
+  "https://i.imgur.com/bCnVnmr.jpg"
+];
+
+// Start fetching immediately
+imageUrls.forEach((url) => {
+  const img = new Image();
+  img.src = url;
+});
+
 export default function App() {
   const [step, setStep] = useState(0);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -12,28 +33,6 @@ export default function App() {
   const [timeLeft, setTimeLeft] = useState(600);
   
   const checkoutUrl = "https://go.perfectpay.com.br/PPU38CQ630C";
-
-  // Preload images on mount
-  useEffect(() => {
-    const imageUrls = [
-      "https://i.imgur.com/xQjj8N5.png",
-      "https://i.imgur.com/Fgw1OG5.jpeg",
-      "https://i.imgur.com/zG4MT7C.jpeg",
-      "https://quentesecarentes.com.br/wp-content/uploads/2019/10/banner29112016-009.jpg",
-      "https://quentesecarentes.com.br/wp-content/uploads/2019/10/banner29112016-005.jpg",
-      "https://sexshoperotica.com.br/wp-content/uploads/2016/11/banner29112016-001.jpg",
-      "https://i0.statig.com.br/bancodeimagens/2d/xa/7l/2dxa7lvdi0j372n4yuhaioj96.jpg",
-      "https://i.imgur.com/nCdT1tV.jpg",
-      "https://i.imgur.com/UV9Z6gf.png",
-      "https://i.imgur.com/VhoVk3r.png",
-      "https://i.imgur.com/bCnVnmr.jpg"
-    ];
-
-    imageUrls.forEach((url) => {
-      const img = new Image();
-      img.src = url;
-    });
-  }, []);
 
   // Force scroll to top on every step change
   useEffect(() => {
@@ -59,7 +58,13 @@ export default function App() {
 
   const QuizLogo = () => (
     <div className="flex justify-center mb-4 fade-in">
-      <img src="https://i.imgur.com/xQjj8N5.png" alt="Manual das Posições Secretas" className="w-[100px] h-[100px] object-contain" />
+      <img 
+        src="https://i.imgur.com/xQjj8N5.png" 
+        alt="Manual das Posições Secretas" 
+        className="w-[100px] h-[100px] object-contain"
+        loading="eager"
+        decoding="sync"
+      />
     </div>
   );
 
@@ -131,7 +136,13 @@ export default function App() {
             Surpreenda seu parceiro inovando com posições nunca vistas antes
           </h1>
         </div>
-        <img src="https://i.imgur.com/Fgw1OG5.jpeg" alt="Couple" className="w-full h-auto shadow-sm" />
+        <img 
+          src="https://i.imgur.com/Fgw1OG5.jpeg" 
+          alt="Couple" 
+          className="w-full h-auto shadow-sm"
+          loading="eager"
+          decoding="sync"
+        />
         <div className="p-6 pt-4 flex flex-col gap-4 flex-grow fade-in">
           <p className="text-gray-700 text-center">
             😈 Essas 50 posições secretas vão fazer ele esquecer todas as outras mulheres e desejar apenas você
@@ -163,7 +174,12 @@ export default function App() {
             Criadora do MANUAL DAS POSIÇÕES SECRETAS
           </p>
         </div>
-        <img src="https://i.imgur.com/zG4MT7C.jpeg" alt="Ana Julia" className="w-full h-auto shadow-sm" />
+        <img 
+          src="https://i.imgur.com/zG4MT7C.jpeg" 
+          alt="Ana Julia" 
+          className="w-full h-auto shadow-sm"
+          loading="eager"
+        />
         <ContentPadding>
           <p className="text-gray-700 text-center">
             Uma sexóloga que se tornou uma das profissionais mais reconhecidas e respeitadas do país.
