@@ -241,14 +241,14 @@ export const SalesPopup: React.FC = () => {
   if (!visible) return null;
 
   return (
-    <div className="fixed top-16 right-2 z-[60] bg-white rounded-lg shadow-2xl p-3 flex items-center gap-3 animate-fade-in-down border border-green-100 max-w-[220px]">
-      <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 shrink-0">
-        <CheckCircle size={16} />
+    <div className="fixed top-14 right-2 z-[60] bg-white rounded shadow-lg p-2 flex items-center gap-2 animate-fade-in-down border border-green-100 max-w-[170px]">
+      <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 shrink-0">
+        <CheckCircle size={12} />
       </div>
       <div className="flex flex-col">
-        <span className="text-xs font-bold text-gray-800 leading-tight">{data.name}</span>
-        <span className="text-[10px] text-gray-500 leading-tight">de {data.city} comprou o manual</span>
-        <span className="text-[10px] text-green-600 font-bold mt-0.5">há poucos instantes</span>
+        <span className="text-[10px] font-bold text-gray-800 leading-tight">{data.name}</span>
+        <span className="text-[9px] text-gray-500 leading-tight">de {data.city} comprou</span>
+        <span className="text-[8px] text-green-600 font-bold mt-0.5">há poucos segundos</span>
       </div>
     </div>
   );
