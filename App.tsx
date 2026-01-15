@@ -1,20 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button, Container, ContentPadding, SelectableOption, Mockup } from './components/UIComponents';
+import { Button, Container, ContentPadding, SelectableOption, PhoneMockupCarousel, SocialProofCarousel, CountdownBanner } from './components/UIComponents';
 import { TestimonialData, BonusData } from './types';
-import { ChartPie, CheckCircle, Lock, Star, Clock } from 'lucide-react';
+import { CheckCircle, Lock, Clock, Star } from 'lucide-react';
 
 export default function App() {
   const [step, setStep] = useState(0);
   const [loadingProgress, setLoadingProgress] = useState(0);
   // State for multi-select steps
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  // Timer for sales page (10 minutes = 600 seconds)
+  const [timeLeft, setTimeLeft] = useState(600);
   
+  const checkoutUrl = "https://go.perfectpay.com.br/PPU38CQ630C";
+
   const scrollToTop = () => window.scrollTo(0, 0);
 
   const nextStep = () => {
     setStep((s) => s + 1);
     setSelectedOptions([]);
     scrollToTop();
+  };
+
+  const handleCheckout = () => {
+    window.location.href = checkoutUrl;
   };
 
   const toggleOption = (option: string) => {
@@ -25,9 +33,35 @@ export default function App() {
     }
   };
 
+  const QuizLogo = () => (
+    <div className="flex justify-center mb-4 fade-in">
+      <img src="https://i.imgur.com/xQjj8N5.png" alt="Manual das Posições Secretas" className="w-[100px] h-[100px] object-contain" />
+    </div>
+  );
+
   // Loading Screen Logic
+  const [currentLoadingTestimonial, setCurrentLoadingTestimonial] = useState(0);
+  const loadingTestimonials = [
+    {
+      name: "Carla Souza",
+      handle: "@carla.souza.fit",
+      text: "Obrigada Ana Julia! O Manual salvou meu casamento. A gente vivia brigando, agora é só amor e carinho o dia todo. A posição 12 é surreal!"
+    },
+    {
+      name: "Mariana Lima",
+      handle: "@mari_lima99",
+      text: "Nunca imaginei que fosse tão fácil. As aulas são curtas e diretas. Em uma noite já vi diferença."
+    },
+    {
+      name: "Juliana Mendes",
+      handle: "@ju.mendes_ofc",
+      text: "Amei as posições! Meu namorado ficou doido kkkkk. Recomendo pra todas as minhas amigas."
+    }
+  ];
+
   useEffect(() => {
     if (step === 15) {
+      // Progress Bar
       const interval = setInterval(() => {
         setLoadingProgress((prev) => {
           if (prev >= 100) {
@@ -38,9 +72,28 @@ export default function App() {
           return prev + 1;
         });
       }, 50); // Adjust speed
-      return () => clearInterval(interval);
+
+      // Testimonial Cycler
+      const testimonialInterval = setInterval(() => {
+        setCurrentLoadingTestimonial((prev) => (prev + 1) % loadingTestimonials.length);
+      }, 1800);
+
+      return () => {
+        clearInterval(interval);
+        clearInterval(testimonialInterval);
+      };
     }
   }, [step]);
+
+  // Sales Page Timer Logic
+  useEffect(() => {
+    if (step === 16 && timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [step, timeLeft]);
 
   // --- RENDER STEPS ---
 
@@ -49,20 +102,21 @@ export default function App() {
     return (
       <Container>
         <div className="p-6 pb-2 fade-in">
-          <h1 className="text-2xl font-bold text-red-600 leading-tight">
-            Surpreenda seu parceiro inovando com posições nunca vistas antes 😈
+          <QuizLogo />
+          <h1 className="text-2xl font-bold text-red-600 leading-tight text-center">
+            Surpreenda seu parceiro inovando com posições nunca vistas antes
           </h1>
         </div>
         <img src="https://i.imgur.com/Fgw1OG5.jpeg" alt="Couple" className="w-full h-auto shadow-sm" />
         <div className="p-6 pt-4 flex flex-col gap-4 flex-grow fade-in">
-          <p className="text-gray-700">
-            Essas 50 posições secretas vão fazer ele esquecer todas as outras mulheres e desejar apenas você 🔥
+          <p className="text-gray-700 text-center">
+            😈 Essas 50 posições secretas vão fazer ele esquecer todas as outras mulheres e desejar apenas você
           </p>
-          <p className="text-gray-700 font-medium">
-            Ele vai implorar pela sua atenção e pensar em você 24h por dia 🤫
+          <p className="text-gray-700 font-medium text-center">
+            🔥 Ele vai implorar pela sua atenção e pensar em você 24h por dia
           </p>
-          <p className="text-gray-600 text-sm italic">
-            Você nunca mais vai ser ignorada, trocada ou se sentir insegura porque ele não te procura mais…
+          <p className="text-gray-600 text-sm italic text-center">
+            🤫 Você nunca mais vai ser ignorada, trocada ou se sentir insegura porque ele não te procura mais…
           </p>
           <div className="mt-auto">
             <Button onClick={nextStep}>Continuar</Button>
@@ -76,19 +130,25 @@ export default function App() {
   if (step === 1) {
     return (
       <Container>
-        <img src="https://i.imgur.com/zG4MT7C.jpeg" alt="Ana Julia" className="w-full h-auto shadow-sm" />
-        <ContentPadding>
-          <h2 className="text-2xl font-bold text-gray-900">
-            Conheça sua professora: <span className="text-pink-600">Ana Julia</span>
+        <div className="p-6 pb-4 fade-in">
+          <QuizLogo />
+          <h2 className="text-2xl font-bold text-gray-900 text-center">
+            Conheça sua professora: Ana Julia
           </h2>
-          <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+          <p className="text-sm font-bold text-gray-500 uppercase tracking-wide text-center mt-1">
             Criadora do MANUAL DAS POSIÇÕES SECRETAS
           </p>
-          <p className="text-gray-700">
+        </div>
+        <img src="https://i.imgur.com/zG4MT7C.jpeg" alt="Ana Julia" className="w-full h-auto shadow-sm" />
+        <ContentPadding>
+          <p className="text-gray-700 text-center">
             Uma sexóloga que se tornou uma das profissionais mais reconhecidas e respeitadas do país.
           </p>
-          <p className="text-gray-700">
-            Sexóloga e especialista em sexualidade feminina Já ajudou mais de 73 mil mulheres a dominarem a mente masculina se tornarem inesquecíveis na cama
+          <p className="text-gray-700 text-center font-bold">
+            Sexóloga e especialista em sexualidade feminina
+          </p>
+          <p className="text-gray-700 text-center">
+            Já ajudou mais de 73 mil mulheres a dominarem a mente masculina se tornarem inesquecíveis na cama
           </p>
           <div className="mt-auto">
             <Button onClick={nextStep}>Continuar</Button>
@@ -104,8 +164,9 @@ export default function App() {
       <Container>
         <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[10%]"></div></div>
         <ContentPadding>
-          <p className="text-gray-500 text-sm font-semibold">Antes de liberar o seu acesso ao Manual das Posições Matadoras, preciso saber:</p>
-          <h2 className="text-xl font-bold text-gray-900 mb-4">
+          <QuizLogo />
+          <p className="text-gray-500 text-sm font-semibold text-center">Antes de liberar o seu acesso ao Manual das Posições Matadoras, preciso saber:</p>
+          <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">
             Em qual momento da sua vida amorosa você está nesse momento
           </h2>
           <div className="flex flex-col gap-3">
@@ -125,7 +186,8 @@ export default function App() {
       <Container>
         <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[25%]"></div></div>
         <ContentPadding>
-          <h2 className="text-xl font-bold text-gray-900 mb-4">
+          <QuizLogo />
+          <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">
             Quando o assunto é sexo, como você se classifica?
           </h2>
           <div className="flex flex-col gap-3">
@@ -145,7 +207,8 @@ export default function App() {
       <Container>
         <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[40%]"></div></div>
         <ContentPadding>
-          <h2 className="text-xl font-bold text-gray-900 mb-4">
+          <QuizLogo />
+          <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">
             Qual sua maior dificuldade na hora do sexo?
           </h2>
           <div className="flex flex-col gap-3">
@@ -165,10 +228,11 @@ export default function App() {
       <Container>
         <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[55%]"></div></div>
         <ContentPadding>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">
+          <QuizLogo />
+          <h2 className="text-xl font-bold text-gray-900 mb-2 text-center">
             O que você quer que aconteça depois de aplicar as 50 POSIÇÕES SECRETAS?
           </h2>
-          <p className="text-sm text-gray-500 mb-4">Pode selecionar mais de uma opção</p>
+          <p className="text-sm text-gray-500 mb-4 text-center">Pode selecionar mais de uma opção</p>
           <div className="flex flex-col gap-3 mb-6">
             {[
               "🔥 Ver ele gemendo e perdendo o controle",
@@ -197,6 +261,7 @@ export default function App() {
     return (
       <Container>
         <ContentPadding>
+          <QuizLogo />
           <h2 className="text-xl font-bold text-center text-gray-900 mb-6">
             Veja o relato de algumas alunas que já aplicaram a técnica das posições secretas…
           </h2>
@@ -227,6 +292,7 @@ export default function App() {
     return (
       <Container>
         <ContentPadding>
+          <QuizLogo />
           <h2 className="text-2xl font-extrabold text-red-600 uppercase text-center leading-tight">
             SE VOCÊ NÃO FAZ ESSAS 50 POSIÇÕES, OUTRA FARÁ POR VOCÊ.
           </h2>
@@ -251,7 +317,8 @@ export default function App() {
     return (
       <Container>
         <ContentPadding>
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          <QuizLogo />
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
             Sua vida Sexual vai mudar da água pro vinho 🍷
           </h2>
           <div className="space-y-4 text-gray-700">
@@ -275,7 +342,8 @@ export default function App() {
     return (
       <Container>
         <ContentPadding>
-          <h2 className="text-xl font-bold text-gray-900 mb-4">
+          <QuizLogo />
+          <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">
             Ao liberar acesso ao Manual das Posições você vai descobrir como:
           </h2>
           <ul className="space-y-3">
@@ -307,10 +375,11 @@ export default function App() {
       <Container>
         <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[70%]"></div></div>
         <ContentPadding>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">
+          <QuizLogo />
+          <h2 className="text-xl font-bold text-gray-900 mb-2 text-center">
             Qual é a sua maior frustração na cama hoje?
           </h2>
-          <p className="text-sm text-gray-500 mb-4">Pode escolher mais de uma opção</p>
+          <p className="text-sm text-gray-500 mb-4 text-center">Pode escolher mais de uma opção</p>
           <div className="flex flex-col gap-3 mb-6">
             {[
               "Me sinto insegura por que não consigo fazer ele gozar",
@@ -340,7 +409,8 @@ export default function App() {
       <Container>
         <div className="bg-pink-100 h-2 w-full"><div className="bg-pink-500 h-2 w-[85%]"></div></div>
         <ContentPadding>
-          <h2 className="text-xl font-bold text-gray-900 mb-4">
+          <QuizLogo />
+          <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">
             Quando foi a última vez que você realmente sentiu um homem louco de tesão por você a ponto de perder o controle?
           </h2>
           <div className="flex flex-col gap-3">
@@ -359,7 +429,8 @@ export default function App() {
     return (
       <Container>
         <ContentPadding>
-          <h2 className="text-xl font-bold text-gray-900 mb-6">
+          <QuizLogo />
+          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">
             Essas 3 coisas vão acontecer logo na primeira vez que você colocar em prática alguma das posições do Manual...
           </h2>
           
@@ -396,6 +467,7 @@ export default function App() {
     return (
       <Container>
         <ContentPadding>
+          <QuizLogo />
           <div className="flex flex-col items-center justify-center flex-grow text-center">
             <h2 className="text-2xl font-bold text-gray-900 mb-8">
               Você quer ter acesso ao Manual das Posições SECRETAS?
@@ -412,10 +484,13 @@ export default function App() {
 
   // Step 14: Loading
   if (step === 15) {
+    const t = loadingTestimonials[currentLoadingTestimonial];
+
     return (
       <Container>
         <ContentPadding>
-          <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-8">
+          <QuizLogo />
+          <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-8">
             <div className="w-24 h-24 rounded-full border-8 border-gray-200 border-t-pink-500 animate-spin"></div>
             
             <div className="w-full text-center">
@@ -423,17 +498,27 @@ export default function App() {
               <p className="text-gray-600 mt-2 font-medium">Preparando seu acesso..</p>
             </div>
 
-            <div className="w-full bg-white p-4 rounded-xl shadow-lg border border-gray-100 max-w-sm">
+            {/* Testimonial Carousel in Loading */}
+            <div className="w-full bg-white p-4 rounded-xl shadow-lg border border-gray-100 max-w-sm transition-opacity duration-500 fade-in">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">C</div>
+                <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold shrink-0">
+                  {t.name.charAt(0)}
+                </div>
                 <div>
-                  <p className="text-xs text-gray-500 mb-1">Carla Souza <span className="text-gray-400">@carla.souza.fit</span></p>
-                  <p className="text-sm text-gray-800 italic">"Obrigada Ana Julia! O Manual salvou meu casamento. A gente vivia brigando, agora é só amor e carinho o dia todo. A posição 12 é surreal!"</p>
+                  <p className="text-xs text-gray-500 mb-1 font-bold">{t.name} <span className="text-gray-400 font-normal">{t.handle}</span></p>
+                  <div className="flex text-yellow-400 mb-1">
+                    <Star size={10} fill="currentColor" />
+                    <Star size={10} fill="currentColor" />
+                    <Star size={10} fill="currentColor" />
+                    <Star size={10} fill="currentColor" />
+                    <Star size={10} fill="currentColor" />
+                  </div>
+                  <p className="text-sm text-gray-800 italic">"{t.text}"</p>
                 </div>
               </div>
             </div>
 
-            <p className="text-xs text-gray-400 animate-pulse">Verificando disponibilidade de vagas...</p>
+            <p className="text-xs text-gray-400 animate-pulse mt-auto">Verificando disponibilidade de vagas...</p>
           </div>
         </ContentPadding>
       </Container>
@@ -451,21 +536,19 @@ export default function App() {
   if (step === 16) {
     return (
       <Container>
-        <div className="bg-red-600 text-white p-3 text-center text-sm font-bold animate-pulse">
-          Somente 4 Vagas Restantes
-        </div>
+        <CountdownBanner timeLeft={timeLeft} />
         
         <ContentPadding>
           <h1 className="text-2xl font-black text-center text-gray-900 leading-tight mb-6">
             SEU MANUAL COM AS 50 POSIÇÕES SECRETAS ESTÁ PRONTO !
           </h1>
 
-          <div className="mb-8 transform hover:scale-105 transition-transform duration-300">
-            <Mockup />
+          <div className="mb-8">
+            <PhoneMockupCarousel />
           </div>
 
           <div className="space-y-6">
-            <h2 className="text-lg font-bold text-gray-900">Dentro desse manual, você terá acesso a:</h2>
+            <h2 className="text-lg font-bold text-gray-900 text-center">Dentro desse manual, você terá acesso a:</h2>
             
             <ul className="space-y-4">
               <li className="flex gap-3">
@@ -508,35 +591,19 @@ export default function App() {
           <div className="my-8">
             <div className="bg-gradient-to-r from-red-600 to-pink-600 p-6 rounded-xl text-white text-center shadow-xl">
               <h3 className="font-bold text-xl mb-2">GARANTA SUA VAGA HOJE</h3>
-              <p className="text-sm opacity-90 mb-4">E RECEBA VÁRIOS BÔNUS TOTALMENTE ESPECIAIS QUE VAI TE TORNAR UMA PROFISSIONAL NA CAMA</p>
-              <Button variant="secondary">QUERO O MEU ACESSO AO MANUAL</Button>
+              <p className="text-sm opacity-90 mb-4 uppercase">E RECEBA + 7 BÔNUS TOTALMENTE ESPECIAIS QUE VAI TE TORNAR UMA PROFISSIONAL NA CAMA</p>
+              <Button variant="pulsing-green" onClick={handleCheckout}>QUERO O MEU ACESSO AO MANUAL</Button>
             </div>
           </div>
 
           <div className="space-y-6 bg-gray-50 p-4 rounded-xl">
             <h3 className="text-center font-bold text-gray-900 text-lg">Veja o que falam algumas de nossas clientes</h3>
-            {[
-              { name: "Larissa M.", time: "há 2 horas", text: "Menina, chocada! Fiz a posição do trono ontem e meu marido ficou doido kkkk amei!" },
-              { name: "Michele S.", time: "há 5 horas", text: "Gente, comprem! O manual é direto ao ponto, sem enrolação. Meu namorado nem acredita na minha mudança rsrs" },
-              { name: "Fernanda P.", time: "há 1 dia", text: "Eu achava que era bobagem, mas salvou meu casamento. A gente tava super frio, agora é fogo todo dia 🔥" },
-              { name: "Bianca R.", time: "há 2 dias", text: "Amei demais! Super explicadinho e as dicas de frases funcionam mesmo. Me sentindo poderosa!" }
-            ].map((t, i) => (
-              <div key={i} className="border-b border-gray-200 pb-4 last:border-0">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="font-bold text-gray-800">{t.name}</span>
-                  <span className="text-xs text-gray-400">{t.time}</span>
-                </div>
-                <div className="flex text-yellow-400 w-20 mb-1">
-                  <Star fill="currentColor" size={12} /><Star fill="currentColor" size={12} /><Star fill="currentColor" size={12} /><Star fill="currentColor" size={12} /><Star fill="currentColor" size={12} />
-                </div>
-                <p className="text-sm text-gray-600">"{t.text}"</p>
-              </div>
-            ))}
+            <SocialProofCarousel />
           </div>
 
           <div className="mt-8 space-y-6">
             <h2 className="text-xl font-black text-center text-pink-600 uppercase">
-              🎁 BÔNUS EXCLUSIVOS DO MANUAL DAS POSIÇÕES SECRETAS GRÁTIS
+              🎁 BÔNUS EXCLUSIVOS DO MANUAL DAS POSIÇÕES SECRETAS GRÁTIS - SOMENTE 4 VAGAS DISPONÍVEIS
             </h2>
             
             {[
@@ -550,8 +617,8 @@ export default function App() {
             ].map((bonus, idx) => (
               <div key={idx} className="border-2 border-dashed border-pink-300 rounded-xl p-4 bg-pink-50">
                 <span className="bg-pink-600 text-white text-xs font-bold px-2 py-1 rounded mb-2 inline-block">GRÁTIS</span>
-                <h3 className="font-bold text-gray-900">{bonus.title}</h3>
-                <p className="text-xs text-gray-500 line-through mb-2">Valor: {bonus.val}</p>
+                <h3 className="font-bold text-gray-900 text-center">{bonus.title}</h3>
+                <p className="text-xs text-gray-500 line-through mb-2 text-center">Valor: {bonus.val}</p>
                 <p className="text-sm text-gray-700">{bonus.desc}</p>
               </div>
             ))}
@@ -565,8 +632,8 @@ export default function App() {
             </div>
           </div>
 
-          <div className="my-8 border-4 border-red-600 rounded-xl overflow-hidden shadow-2xl">
-            <div className="bg-red-600 text-white text-center py-2 font-bold uppercase tracking-wider text-sm">
+          <div className="my-8 border-4 border-green-600 rounded-xl overflow-hidden shadow-2xl">
+            <div className="bg-green-600 text-white text-center py-2 font-bold uppercase tracking-wider text-sm">
               😈🔥 CONDIÇÃO ESPECIAL LIBERADA SOMENTE NESSA PÁGINA
             </div>
             <div className="p-6 bg-white text-center">
@@ -576,18 +643,18 @@ export default function App() {
               <p className="text-sm text-red-500 mb-4 bg-red-50 p-2 rounded">
                 Você está recebendo <span className="font-bold line-through">R$442,00</span> de desconto pra ter acesso ao conteúdo mais poderoso pra transformar sua vida sexual e dominar o poder de deixar qualquer homem aos seus pés
               </p>
-              <Button variant="success" className="text-xl shadow-green-200 shadow-xl">QUERO O MEU ACESSO AO MANUAL</Button>
+              <Button variant="pulsing-green" className="text-xl" onClick={handleCheckout}>QUERO O MEU ACESSO AO MANUAL</Button>
               <p className="text-xs text-gray-400 mt-2">(teste hoje mesmo)</p>
             </div>
           </div>
 
           <div className="space-y-6">
             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-              <h3 className="font-bold text-yellow-800 uppercase flex items-center gap-2">
+              <h3 className="font-bold text-yellow-800 uppercase flex items-center justify-center gap-2">
                 <Clock size={20} /> Atenção
               </h3>
-              <p className="text-yellow-900 font-bold mt-2">SE VOCÊ NÃO FIZER ISSO AINDA HOJE, OUTRA VAI FAZER EM SEU LUGAR! 💔</p>
-              <p className="text-yellow-800 text-sm mt-2">Enquanto você tenta ser a certinha… ele deseja Outra Mulher que sabe ser PUTA na hora CERTA. 😈</p>
+              <p className="text-yellow-900 font-bold mt-2 text-center">SE VOCÊ NÃO FIZER ISSO AINDA HOJE, OUTRA VAI FAZER EM SEU LUGAR! 💔</p>
+              <p className="text-yellow-800 text-sm mt-2 text-center">Enquanto você tenta ser a certinha… ele deseja Outra Mulher que sabe ser PUTA na hora CERTA. 😈</p>
             </div>
 
             <div className="prose prose-sm prose-pink text-gray-700">
@@ -596,8 +663,8 @@ export default function App() {
               <p>E se você é solteira, com essas posições você vai deixar os homens comendo na sua mão, Eles não vão parar de te procurar, dizendo que precisam te ver de novo…</p>
               <p>Você vai ter tantos homens aos seus pés que vai poder escolher qualquer homem que você quiser pra se relacionar…</p>
             </div>
-
-            <h2 className="text-xl font-bold text-center text-pink-600 uppercase">QUERO SER ÚNICA</h2>
+            
+            <Button variant="pulsing-green" onClick={handleCheckout}>QUERO SER ÚNICA</Button>
             
             <p className="text-gray-700 leading-relaxed">
               A verdade é dura: Homens esquecem mulheres comuns todos os dias. Mas eles nunca esquecem uma mulher que sabe fazer as 5 Posições Matadoras. Essas mulheres dominam algo que a maioria nunca aprende: transformar prazer em vício. É como uma droga invisível: quanto mais ele prova, mais precisa.
@@ -617,7 +684,7 @@ export default function App() {
               <li className="flex gap-2"><span className="text-red-500">🔥</span> Faça ele pensar em você e querer te agradar o Tempo todo.</li>
             </ul>
 
-            <Button>QUERO DEIXAR ELE VICIADO EM MIM</Button>
+            <Button variant="pulsing-green" onClick={handleCheckout}>QUERO DEIXAR ELE VICIADO EM MIM</Button>
           </div>
 
           <div className="mt-12 mb-8 bg-gray-50 border border-gray-200 rounded-xl p-6 text-center">
@@ -626,15 +693,18 @@ export default function App() {
                  <Lock size={32} />
                </div>
              </div>
-             <h2 className="text-xl font-bold text-gray-900">GARANTIA TOTAL DE 30 DIAS</h2>
+             <h2 className="text-xl font-bold text-gray-900">GARANTIA TOTAL DE 7 DIAS</h2>
              <h3 className="text-lg font-medium text-gray-600 mb-4">Risco Zero para Você</h3>
              <p className="text-sm text-gray-600 mb-4">
-               Eu confio tanto no poder transformador deste Manual que vou assumir todo o risco. Você tem 30 dias inteiros para testar. Se você aplicar as técnicas e não ver seu homem (ou os homens) babando por você, mais carinhoso e viciado na sua presença... Ou se você simplesmente não gostar do conteúdo, eu devolvo 100% do seu dinheiro. Sem perguntas chatas, sem burocracia. É só mandar um e-mail.
+               Você tem 7 dias completos para acessar o Manual, aplicar as posições, assistir às aulas com Vanessa e avaliar se o método realmente entrega a transformação que promete.
+             </p>
+             <p className="text-sm text-gray-600 mb-4">
+               Se por qualquer motivo — e eu disse qualquer motivo — você não ficar satisfeita com o Manual das Posições Matadoras, basta enviar um e-mail e devolvemos 100% do seu investimento na mesma hora.
              </p>
              <p className="text-sm font-bold text-gray-800 mb-6">
                A responsabilidade é toda minha. Você não tem nada a perder.
              </p>
-             <Button variant="success">QUERO COMPRAR SEM RISCOS</Button>
+             <Button variant="pulsing-green" onClick={handleCheckout}>QUERO COMPRAR SEM RISCOS</Button>
           </div>
           
           <footer className="text-center text-xs text-gray-400 pb-8">

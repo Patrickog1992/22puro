@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Star, ThumbsUp, Heart } from 'lucide-react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'success';
+  variant?: 'primary' | 'secondary' | 'success' | 'pulsing-green';
   fullWidth?: boolean;
 }
 
@@ -20,7 +21,9 @@ export const Button: React.FC<ButtonProps> = ({
   } else if (variant === 'secondary') {
     variantStyles = "bg-white border-2 border-gray-200 text-gray-800 hover:bg-gray-50";
   } else if (variant === 'success') {
-    variantStyles = "bg-green-500 hover:bg-green-600 text-white animate-pulse";
+    variantStyles = "bg-green-500 hover:bg-green-600 text-white animate-pulse shadow-green-200/50";
+  } else if (variant === 'pulsing-green') {
+    variantStyles = "bg-green-600 hover:bg-green-700 text-white animate-pulse shadow-xl shadow-green-400/50 border-b-4 border-green-800";
   }
 
   const widthStyles = fullWidth ? "w-full" : "";
@@ -36,7 +39,7 @@ export const Button: React.FC<ButtonProps> = ({
 };
 
 export const Container: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="max-w-md mx-auto min-h-screen bg-white shadow-xl overflow-hidden flex flex-col">
+  <div className="max-w-md mx-auto min-h-screen bg-white shadow-xl overflow-hidden flex flex-col relative">
     {children}
   </div>
 );
@@ -69,12 +72,133 @@ export const SelectableOption: React.FC<{
   </div>
 );
 
-export const Mockup: React.FC = () => (
-  <div className="relative mx-auto w-48 h-64 bg-gradient-to-br from-pink-500 to-red-600 rounded-lg shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500 flex flex-col items-center justify-center text-white border-r-4 border-b-4 border-red-800/20">
-    <div className="absolute inset-2 border border-white/30 rounded flex flex-col items-center justify-center text-center p-2">
-      <h3 className="font-bold text-xl uppercase leading-tight mb-2">Manual das Posições Secretas</h3>
-      <div className="w-8 h-8 bg-white/20 rounded-full mb-2"></div>
-      <p className="text-xs opacity-90">50 Posições</p>
+// --- NEW COMPONENTS ---
+
+export const Mockup: React.FC = () => null; // Deprecated, keeping for interface compatibility if needed
+
+export const PhoneMockupCarousel: React.FC = () => {
+  const images = [
+    { src: "https://quentesecarentes.com.br/wp-content/uploads/2019/10/banner29112016-005.jpg", name: "O Abraço da Serpente" },
+    { src: "https://sexshoperotica.com.br/wp-content/uploads/2016/11/banner29112016-001.jpg", name: "O Voo do Êxtase" },
+    { src: "https://i0.statig.com.br/bancodeimagens/2d/xa/7l/2dxa7lvdi0j372n4yuhaioj96.jpg", name: "A Deusa no Trono" }
+  ];
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIdx((prev) => (prev + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="relative mx-auto w-64 h-[500px] bg-gray-900 rounded-[2.5rem] shadow-2xl border-8 border-gray-900 overflow-hidden ring-1 ring-gray-900/50">
+      {/* Notch */}
+      <div className="absolute top-0 inset-x-0 h-6 bg-gray-900 rounded-b-xl w-32 mx-auto z-20"></div>
+      
+      {/* Screen */}
+      <div className="relative w-full h-full bg-black">
+        {images.map((img, i) => (
+          <div 
+            key={i}
+            className={`absolute inset-0 transition-opacity duration-1000 flex flex-col justify-center ${i === idx ? 'opacity-100' : 'opacity-0'}`}
+          >
+            <img src={img.src} alt={img.name} className="w-full h-full object-contain" />
+            <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/80 to-transparent p-6 text-center pb-12">
+              <span className="text-white font-bold text-xl uppercase tracking-wider drop-shadow-md">{img.name}</span>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
+
+export const SocialProofCarousel: React.FC = () => {
+  const testimonials = [
+    {
+      img: "https://i.imgur.com/nCdT1tV.jpg",
+      name: "Patrícia Lima",
+      text: "Gente, eu tava desacreditada! Meu marido nem olhava na minha cara direito. Apliquei a técnica da 'Deusa no Trono' e ele ficou chocado kkkk. Agora ele não me larga!",
+      time: "há 2 horas"
+    },
+    {
+      img: "https://i.imgur.com/UV9Z6gf.png",
+      name: "Camila Rocha",
+      text: "Eu achava que era golpe, mas paguei pra ver. O conteúdo é muito direto. A parte das frases mudou tudo pra mim. Me sinto muito mais poderosa.",
+      time: "há 5 horas"
+    },
+    {
+      img: "https://i.imgur.com/VhoVk3r.png",
+      name: "Juliana Mendes",
+      text: "Meninas, só comprem! É barato demais pelo que entrega. Meu namorado perguntou onde eu aprendi essas coisas rsrsrs 😈",
+      time: "há 1 dia"
+    },
+    {
+      img: "https://i.imgur.com/bCnVnmr.jpg",
+      name: "Fernanda Costa",
+      text: "Salvou meu relacionamento de 10 anos. A rotina tinha acabado com a gente. Ontem tivemos a melhor noite das nossas vidas. Obrigada Ana!",
+      time: "há 2 dias"
+    }
+  ];
+
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIdx((prev) => (prev + 1) % testimonials.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="relative min-h-[220px]">
+      {testimonials.map((t, i) => (
+        <div 
+          key={i}
+          className={`absolute inset-0 transition-all duration-700 transform ${
+            i === idx ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
+          } bg-white rounded-xl shadow-md border border-gray-100 p-4`}
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <img src={t.img} alt={t.name} className="w-12 h-12 rounded-full object-cover border-2 border-pink-200" />
+            <div>
+              <p className="font-bold text-gray-900">{t.name}</p>
+              <div className="flex text-yellow-400 text-xs">
+                <Star size={12} fill="currentColor" />
+                <Star size={12} fill="currentColor" />
+                <Star size={12} fill="currentColor" />
+                <Star size={12} fill="currentColor" />
+                <Star size={12} fill="currentColor" />
+              </div>
+            </div>
+            <span className="ml-auto text-xs text-gray-400">{t.time}</span>
+          </div>
+          <p className="text-sm text-gray-700 leading-relaxed mb-4">"{t.text}"</p>
+          <div className="flex items-center gap-4 border-t pt-2 border-gray-50">
+            <button className="flex items-center gap-1 text-xs text-blue-600 font-semibold">
+              <ThumbsUp size={14} /> Curtir
+            </button>
+            <button className="flex items-center gap-1 text-xs text-red-500 font-semibold">
+              <Heart size={14} fill="currentColor" /> Amei
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export const CountdownBanner: React.FC<{ timeLeft: number }> = ({ timeLeft }) => {
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  
+  return (
+    <div className="bg-red-600 text-white text-center py-3 px-4 font-bold text-sm shadow-lg z-50 sticky top-0 w-full">
+      Você acabou de ganhar 70% de desconto que expira em : 
+      <span className="text-yellow-300 text-lg ml-2 font-mono">
+        {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+      </span>
+    </div>
+  );
+};
