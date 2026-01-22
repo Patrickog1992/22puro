@@ -32,7 +32,7 @@ export default function App() {
   // Timer for sales page (10 minutes = 600 seconds)
   const [timeLeft, setTimeLeft] = useState(600);
   
-  const checkoutUrl = "https://go.perfectpay.com.br/PPU38CQ630C";
+  const checkoutUrl = "https://go.perfectpay.com.br/PPU38CQ6EFC";
 
   // Force scroll to top on every step change
   useEffect(() => {
