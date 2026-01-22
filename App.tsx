@@ -89,7 +89,7 @@ export default function App() {
   ];
 
   useEffect(() => {
-    if (step === 15) {
+    if (step === 16) {
       // Progress Bar
       const interval = setInterval(() => {
         setLoadingProgress((prev) => {
@@ -116,7 +116,7 @@ export default function App() {
 
   // Sales Page Timer Logic
   useEffect(() => {
-    if (step === 16 && timeLeft > 0) {
+    if (step === 17 && timeLeft > 0) {
       const timer = setInterval(() => {
         setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
       }, 1000);
@@ -126,14 +126,37 @@ export default function App() {
 
   // --- RENDER STEPS ---
 
-  // Step 0: Hook
+  // Step 0: AGE QUESTION
   if (step === 0) {
+    return (
+      <Container>
+        <QuizLogo />
+        <ContentPadding>
+          <h1 className="text-2xl font-bold text-red-600 leading-tight text-center">
+            Surpreenda seu parceiro inovando com posições nunca vistas antes
+          </h1>
+          <p className="text-gray-700 font-bold text-center text-lg mt-2">
+            Primeiramente nos conte sua idade
+          </p>
+          <div className="flex flex-col gap-3 mt-4">
+            <SelectableOption selected={false} onClick={nextStep}>18-25</SelectableOption>
+            <SelectableOption selected={false} onClick={nextStep}>25-39</SelectableOption>
+            <SelectableOption selected={false} onClick={nextStep}>39-50</SelectableOption>
+            <SelectableOption selected={false} onClick={nextStep}>50+</SelectableOption>
+          </div>
+        </ContentPadding>
+      </Container>
+    );
+  }
+
+  // Step 1: Hook
+  if (step === 1) {
     return (
       <Container>
         <QuizLogo />
         <div className="px-6 pb-2 fade-in">
           <h1 className="text-2xl font-bold text-red-600 leading-tight text-center">
-            Surpreenda seu parceiro inovando com posições nunca vistas antes
+            Conheça o MANUAL DAS POSIÇÕES
           </h1>
         </div>
         <img 
@@ -161,8 +184,8 @@ export default function App() {
     );
   }
 
-  // Step 1: Bio
-  if (step === 1) {
+  // Step 2: Bio
+  if (step === 2) {
     return (
       <Container>
         <QuizLogo />
@@ -198,8 +221,8 @@ export default function App() {
     );
   }
 
-  // Step 2: Quiz 1
-  if (step === 2) {
+  // Step 3: Quiz 1
+  if (step === 3) {
     return (
       <Container>
         <QuizLogo />
@@ -220,8 +243,8 @@ export default function App() {
     );
   }
 
-  // Step 3: Quiz 2
-  if (step === 3) {
+  // Step 4: Quiz 2
+  if (step === 4) {
     return (
       <Container>
         <QuizLogo />
@@ -241,8 +264,8 @@ export default function App() {
     );
   }
 
-  // Step 4: Quiz 3
-  if (step === 4) {
+  // Step 5: Quiz 3
+  if (step === 5) {
     return (
       <Container>
         <QuizLogo />
@@ -262,8 +285,8 @@ export default function App() {
     );
   }
 
-  // Step 5: Quiz 4 (Multi)
-  if (step === 5) {
+  // Step 6: Quiz 4 (Multi)
+  if (step === 6) {
     return (
       <Container>
         <QuizLogo />
@@ -296,8 +319,8 @@ export default function App() {
     );
   }
 
-  // Step 6: Testimonials 1
-  if (step === 6) {
+  // Step 7: Testimonials 1
+  if (step === 7) {
     return (
       <Container>
         <QuizLogo />
@@ -327,8 +350,8 @@ export default function App() {
     );
   }
 
-  // Step 7: Warning
-  if (step === 7) {
+  // Step 8: Warning
+  if (step === 8) {
     return (
       <Container>
         <QuizLogo />
@@ -352,8 +375,8 @@ export default function App() {
     );
   }
 
-  // Step 8: Transformation
-  if (step === 8) {
+  // Step 9: Transformation
+  if (step === 9) {
     return (
       <Container>
         <QuizLogo />
@@ -377,8 +400,8 @@ export default function App() {
     );
   }
 
-  // Step 9: Promise
-  if (step === 9) {
+  // Step 10: Promise
+  if (step === 10) {
     return (
       <Container>
         <QuizLogo />
@@ -409,8 +432,8 @@ export default function App() {
     );
   }
 
-  // Step 10: Quiz 5 (Multi)
-  if (step === 10) {
+  // Step 11: Quiz 5 (Multi)
+  if (step === 11) {
     return (
       <Container>
         <QuizLogo />
@@ -443,8 +466,8 @@ export default function App() {
     );
   }
 
-  // Step 11: Quiz 6
-  if (step === 11) {
+  // Step 12: Quiz 6
+  if (step === 12) {
     return (
       <Container>
         <QuizLogo />
@@ -464,8 +487,8 @@ export default function App() {
     );
   }
 
-  // Step 12: 3 Things
-  if (step === 12) {
+  // Step 13: 3 Things
+  if (step === 13) {
     return (
       <Container>
         <QuizLogo />
@@ -502,8 +525,8 @@ export default function App() {
     );
   }
 
-  // Step 13: Final Gate
-  if (step === 13) {
+  // Step 14: Final Gate
+  if (step === 14) {
     return (
       <Container>
         <QuizLogo />
@@ -522,8 +545,8 @@ export default function App() {
     );
   }
 
-  // Step 14: Loading
-  if (step === 15) {
+  // Step 15: Loading
+  if (step === 16) {
     const t = loadingTestimonials[currentLoadingTestimonial];
 
     return (
@@ -565,15 +588,15 @@ export default function App() {
     );
   }
 
-  // Handle the transition step (14 in index, but conceptually pre-loading)
-  if (step === 14) {
+  // Handle the transition step
+  if (step === 15) {
     // Immediate redirect to loading logic
-    setTimeout(() => setStep(15), 100);
+    setTimeout(() => setStep(16), 100);
     return null;
   }
 
-  // Step 16: Sales Page
-  if (step === 16) {
+  // Step 17: Sales Page
+  if (step === 17) {
     return (
       <Container>
         <SalesPopup />
