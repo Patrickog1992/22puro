@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button, Container, ContentPadding, SelectableOption, PhoneMockupCarousel, SocialProofCarousel, CountdownBanner, SalesPopup } from './components/UIComponents';
 import { TestimonialData, BonusData } from './types';
-import { CheckCircle, Lock, Clock, Star } from 'lucide-react';
+import { CheckCircle, Lock, Clock, Star, Sparkles } from 'lucide-react';
 
 // Preload images immediately when module loads
 const imageUrls = [
@@ -29,6 +29,9 @@ export default function App() {
   const [loadingProgress, setLoadingProgress] = useState(0);
   // State for multi-select steps
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  // Store quiz answers for analysis
+  const [quizAnswers, setQuizAnswers] = useState<Record<number, string | string[]>>({});
+  
   // Timer for sales page (10 minutes = 600 seconds)
   const [timeLeft, setTimeLeft] = useState(600);
   
@@ -42,6 +45,16 @@ export default function App() {
   const nextStep = () => {
     setStep((s) => s + 1);
     setSelectedOptions([]);
+  };
+
+  const handleSingleAnswer = (answer: string) => {
+    setQuizAnswers(prev => ({ ...prev, [step]: answer }));
+    nextStep();
+  };
+
+  const handleMultiAnswerSubmit = () => {
+    setQuizAnswers(prev => ({ ...prev, [step]: selectedOptions }));
+    nextStep();
   };
 
   const handleCheckout = () => {
@@ -139,10 +152,10 @@ export default function App() {
             Primeiramente nos conte sua idade
           </p>
           <div className="flex flex-col gap-3 mt-4">
-            <SelectableOption selected={false} onClick={nextStep}>18-25</SelectableOption>
-            <SelectableOption selected={false} onClick={nextStep}>25-39</SelectableOption>
-            <SelectableOption selected={false} onClick={nextStep}>39-50</SelectableOption>
-            <SelectableOption selected={false} onClick={nextStep}>50+</SelectableOption>
+            <SelectableOption selected={false} onClick={() => handleSingleAnswer("18-25")}>18-25</SelectableOption>
+            <SelectableOption selected={false} onClick={() => handleSingleAnswer("25-39")}>25-39</SelectableOption>
+            <SelectableOption selected={false} onClick={() => handleSingleAnswer("39-50")}>39-50</SelectableOption>
+            <SelectableOption selected={false} onClick={() => handleSingleAnswer("50+")}>50+</SelectableOption>
           </div>
         </ContentPadding>
       </Container>
@@ -233,10 +246,14 @@ export default function App() {
             Em qual momento da sua vida amorosa você está nesse momento
           </h2>
           <div className="flex flex-col gap-3">
-            <SelectableOption selected={false} onClick={nextStep}>💍 Estou em um relacionamento</SelectableOption>
-            <SelectableOption selected={false} onClick={nextStep}>💘 Estou vivendo um romance mas ainda não é oficial</SelectableOption>
-            <SelectableOption selected={false} onClick={nextStep}>💃 Sou solteira e estou livre</SelectableOption>
-            <SelectableOption selected={false} onClick={nextStep}>🤔 Minha situação é complicada…</SelectableOption>
+            {[
+              "💍 Estou em um relacionamento",
+              "💘 Estou vivendo um romance mas ainda não é oficial",
+              "💃 Sou solteira e estou livre",
+              "🤔 Minha situação é complicada…"
+            ].map((opt) => (
+              <SelectableOption key={opt} selected={false} onClick={() => handleSingleAnswer(opt)}>{opt}</SelectableOption>
+            ))}
           </div>
         </ContentPadding>
       </Container>
@@ -254,10 +271,14 @@ export default function App() {
             Quando o assunto é sexo, como você se classifica?
           </h2>
           <div className="flex flex-col gap-3">
-            <SelectableOption selected={false} onClick={nextStep}>🙈 Sou iniciante total, preciso aprender do zero</SelectableOption>
-            <SelectableOption selected={false} onClick={nextStep}>😕 Dou pro gasto, mas fico insegura em algumas situações</SelectableOption>
-            <SelectableOption selected={false} onClick={nextStep}>😏 Mando bem, mas falta variedade</SelectableOption>
-            <SelectableOption selected={false} onClick={nextStep}>😈 Eu arraso, mas quero novas técnicas</SelectableOption>
+            {[
+              "🙈 Sou iniciante total, preciso aprender do zero",
+              "😕 Dou pro gasto, mas fico insegura em algumas situações",
+              "😏 Mando bem, mas falta variedade",
+              "😈 Eu arraso, mas quero novas técnicas"
+            ].map((opt) => (
+              <SelectableOption key={opt} selected={false} onClick={() => handleSingleAnswer(opt)}>{opt}</SelectableOption>
+            ))}
           </div>
         </ContentPadding>
       </Container>
@@ -275,10 +296,14 @@ export default function App() {
             Qual sua maior dificuldade na hora do sexo?
           </h2>
           <div className="flex flex-col gap-3">
-            <SelectableOption selected={false} onClick={nextStep}>😶 Não conseguir surpreender de verdade</SelectableOption>
-            <SelectableOption selected={false} onClick={nextStep}>👀 Fico sem graça de testar novas técnicas e acabo indo no básico</SelectableOption>
-            <SelectableOption selected={false} onClick={nextStep}>🥱 Cansar rápido e perder o ritmo</SelectableOption>
-            <SelectableOption selected={false} onClick={nextStep}>🥹 Não saber variar as técnicas</SelectableOption>
+            {[
+              "😶 Não conseguir surpreender de verdade",
+              "👀 Fico sem graça de testar novas técnicas e acabo indo no básico",
+              "🥱 Cansar rápido e perder o ritmo",
+              "🥹 Não saber variar as técnicas"
+            ].map((opt) => (
+              <SelectableOption key={opt} selected={false} onClick={() => handleSingleAnswer(opt)}>{opt}</SelectableOption>
+            ))}
           </div>
         </ContentPadding>
       </Container>
@@ -313,7 +338,7 @@ export default function App() {
               </SelectableOption>
             ))}
           </div>
-          <Button onClick={nextStep} disabled={selectedOptions.length === 0}>Continuar</Button>
+          <Button onClick={handleMultiAnswerSubmit} disabled={selectedOptions.length === 0}>Continuar</Button>
         </ContentPadding>
       </Container>
     );
@@ -460,7 +485,7 @@ export default function App() {
               </SelectableOption>
             ))}
           </div>
-          <Button onClick={nextStep} disabled={selectedOptions.length === 0}>Continuar</Button>
+          <Button onClick={handleMultiAnswerSubmit} disabled={selectedOptions.length === 0}>Continuar</Button>
         </ContentPadding>
       </Container>
     );
@@ -477,10 +502,14 @@ export default function App() {
             Quando foi a última vez que você realmente sentiu um homem louco de tesão por você a ponto de perder o controle?
           </h2>
           <div className="flex flex-col gap-3">
-            <SelectableOption selected={false} onClick={nextStep}>Há muito tempo…</SelectableOption>
-            <SelectableOption selected={false} onClick={nextStep}>É tão difícil que sinto que não sou boa o suficiente</SelectableOption>
-            <SelectableOption selected={false} onClick={nextStep}>Recentemente, mas acho que eu poderia ter sido melhor</SelectableOption>
-            <SelectableOption selected={false} onClick={nextStep}>Nunca senti isso de verdade</SelectableOption>
+            {[
+              "Há muito tempo…",
+              "É tão difícil que sinto que não sou boa o suficiente",
+              "Recentemente, mas acho que eu poderia ter sido melhor",
+              "Nunca senti isso de verdade"
+            ].map((opt) => (
+              <SelectableOption key={opt} selected={false} onClick={() => handleSingleAnswer(opt)}>{opt}</SelectableOption>
+            ))}
           </div>
         </ContentPadding>
       </Container>
@@ -597,18 +626,83 @@ export default function App() {
 
   // Step 17: Sales Page
   if (step === 17) {
+    const age = quizAnswers[0] as string || "sua idade";
+    const status = quizAnswers[3] as string || "";
+    const skill = quizAnswers[4] as string || "";
+    const struggle = quizAnswers[5] as string || "";
+    const lastTime = quizAnswers[12] as string || "";
+
     return (
       <Container>
         <SalesPopup />
         <CountdownBanner timeLeft={timeLeft} />
         
         <ContentPadding>
-          <h1 className="text-2xl font-black text-center text-gray-900 leading-tight mb-6">
+          <h1 className="text-2xl font-black text-center text-gray-900 leading-tight mb-2">
             SEU MANUAL COM AS 50 POSIÇÕES SECRETAS ESTÁ PRONTO !
           </h1>
+          
+          <div className="bg-green-50 border border-green-200 p-3 rounded-lg mb-4 text-center">
+             <p className="text-green-800 font-bold text-sm leading-tight">
+               94% das mulheres com perfis semelhantes ao seu percebem melhora em apenas 2 semanas com o Manual das POSIÇÕES SECRETAS
+             </p>
+          </div>
 
           <div className="mb-8">
             <PhoneMockupCarousel />
+          </div>
+
+          {/* PERSONAL ANALYSIS SECTION */}
+          <div className="bg-gray-50 rounded-xl p-5 border border-gray-200 shadow-sm mb-6">
+            <div className="flex items-center gap-2 mb-4 border-b border-gray-200 pb-3">
+              <Sparkles className="text-pink-600" size={24} />
+              <h2 className="text-lg font-extrabold text-gray-900 uppercase">SUA ANÁLISE PERSONALIZADA</h2>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="flex flex-col gap-1">
+                <p className="text-xs font-bold text-gray-500 uppercase">Sua Resposta (Idade): <span className="text-gray-800">{age}</span></p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  <span className="font-bold text-pink-600">Como o Manual Ajuda:</span> Não importa se você tem 20 ou 50 anos, o Manual foi desenhado para respeitar o ritmo do seu corpo, aumentando a libido naturalmente e garantindo que você tenha energia para surpreender.
+                </p>
+              </div>
+
+              {status && (
+                <div className="flex flex-col gap-1 border-t border-gray-200 pt-3">
+                   <p className="text-xs font-bold text-gray-500 uppercase">Sua Resposta (Status): <span className="text-gray-800">{status}</span></p>
+                   <p className="text-sm text-gray-700 leading-relaxed">
+                    <span className="font-bold text-pink-600">Como o Manual Ajuda:</span> Para o seu momento atual, o "Módulo de Conexão Profunda" vai ser essencial. Ele ensina exatamente como criar um vínculo emocional inquebrável através do sexo.
+                  </p>
+                </div>
+              )}
+
+              {skill && (
+                <div className="flex flex-col gap-1 border-t border-gray-200 pt-3">
+                   <p className="text-xs font-bold text-gray-500 uppercase">Sua Resposta (Nível): <span className="text-gray-800">{skill}</span></p>
+                   <p className="text-sm text-gray-700 leading-relaxed">
+                    <span className="font-bold text-pink-600">Como o Manual Ajuda:</span> As aulas em vídeo com a Vanessa de Oliveira mostram o passo a passo prático, tirando qualquer dúvida ou insegurança sobre como executar os movimentos com perfeição.
+                  </p>
+                </div>
+              )}
+
+              {struggle && (
+                <div className="flex flex-col gap-1 border-t border-gray-200 pt-3">
+                   <p className="text-xs font-bold text-gray-500 uppercase">Sua Resposta (Dificuldade): <span className="text-gray-800">{struggle}</span></p>
+                   <p className="text-sm text-gray-700 leading-relaxed">
+                    <span className="font-bold text-pink-600">Como o Manual Ajuda:</span> Você terá acesso a um arsenal de 50 opções. Nunca mais você vai sentir aquele "branco" na hora H ou medo de ser repetitiva. Você terá sempre uma carta na manga.
+                  </p>
+                </div>
+              )}
+              
+               {lastTime && (
+                <div className="flex flex-col gap-1 border-t border-gray-200 pt-3">
+                   <p className="text-xs font-bold text-gray-500 uppercase">Sua Resposta (Última vez): <span className="text-gray-800">{lastTime}</span></p>
+                   <p className="text-sm text-gray-700 leading-relaxed">
+                    <span className="font-bold text-pink-600">Como o Manual Ajuda:</span> As técnicas de "Gatilhos Mentais" inclusas no bônus vão reverter essa situação em dias, fazendo com que ele sinta uma urgência incontrolável de estar com você.
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="space-y-6">
@@ -653,7 +747,7 @@ export default function App() {
           </div>
 
           <div className="my-8">
-            <div className="bg-gradient-to-r from-red-600 to-pink-600 p-6 rounded-xl text-white text-center shadow-xl">
+            <div className="bg-gradient-to-r from-green-600 to-green-800 p-6 rounded-xl text-white text-center shadow-xl">
               <h3 className="font-bold text-xl mb-2">GARANTA SUA VAGA HOJE</h3>
               <p className="text-sm opacity-90 mb-4 uppercase">E RECEBA + 7 BÔNUS TOTALMENTE ESPECIAIS QUE VAI TE TORNAR UMA PROFISSIONAL NA CAMA</p>
               <Button variant="pulsing-green" onClick={handleCheckout}>QUERO O MEU ACESSO AO MANUAL</Button>

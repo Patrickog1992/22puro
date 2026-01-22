@@ -13,7 +13,8 @@ export const Button: React.FC<ButtonProps> = ({
   className = '', 
   ...props 
 }) => {
-  const baseStyles = "py-4 px-6 rounded-lg font-bold text-lg shadow-lg transition-transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed select-none touch-manipulation";
+  // Added touch-manipulation to prevent double-tap zoom delay on mobile
+  const baseStyles = "py-4 px-6 rounded-lg font-bold text-lg shadow-lg transition-transform active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed select-none touch-manipulation cursor-pointer";
   
   let variantStyles = "";
   if (variant === 'primary') {
@@ -57,7 +58,7 @@ export const SelectableOption: React.FC<{
 }> = ({ selected, onClick, children }) => (
   <div 
     onClick={onClick}
-    className={`p-4 rounded-xl border-2 cursor-pointer transition-all select-none active:bg-gray-50 touch-manipulation ${
+    className={`p-4 rounded-xl border-2 cursor-pointer transition-all select-none active:bg-pink-50 touch-manipulation ${
       selected 
         ? 'border-pink-500 bg-pink-50 text-pink-900 font-semibold' 
         : 'border-gray-200 hover:border-pink-300 text-gray-700'
